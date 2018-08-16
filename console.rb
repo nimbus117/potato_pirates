@@ -1,4 +1,5 @@
 require('pry-byebug')
+require('terminal-table')
 require_relative('models/player.rb')
 require_relative('models/win.rb')
 require_relative('models/leaderboard.rb')
