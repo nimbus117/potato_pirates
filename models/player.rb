@@ -58,4 +58,18 @@ class Player
       sql = "DELETE FROM players"
       SqlRunner.run(sql)
     end
+
+    def Player.get_by_name(name)
+      sql = "
+      SELECT
+        *
+      FROM
+        players
+      WHERE
+        name = $1
+      "
+      values = [name]
+      player = SqlRunner.run(sql, values).first
+      Player.new(player)
+    end
 end
