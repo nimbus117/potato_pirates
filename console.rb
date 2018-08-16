@@ -5,6 +5,7 @@ require_relative('models/leaderboard.rb')
 require_relative('db/sql_runner.rb')
 
 Player.delete_all
+Win.delete_all
 
 player1 = Player.new({
   'name' => 'James',
@@ -29,6 +30,36 @@ player4 = Player.new({
   'cohort' => 'E24'
 })
 player4.save
+
+win1 = Win.new({
+  'date' => '2018-08-09',
+  'player_id' => player4.id
+})
+win1.save
+
+win2 = Win.new({
+  'date' => '2018-08-09',
+  'player_id' => player4.id
+})
+win2.save
+
+win3 = Win.new({
+  'date' => '2018-08-09',
+  'player_id' => player1.id
+})
+win3.save
+
+win4 = Win.new({
+  'date' => '2018-08-16',
+  'player_id' => player3.id
+})
+win4.save
+
+win5 = Win.new({
+  'date' => '2018-08-16',
+  'player_id' => player2.id
+})
+win5.save
 
 binding.pry
 nil
