@@ -8,7 +8,7 @@ class Player
     @cohort = options['cohort']
   end
 
-    def save()
+    def save
       sql = "
         INSERT INTO players
           (name, cohort)
@@ -20,7 +20,7 @@ class Player
       @id = SqlRunner.run(sql, values)[0]['id'].to_i
     end
 
-    def update()
+    def update
       sql = "
         UPDATE
           players
@@ -33,7 +33,7 @@ class Player
       SqlRunner.run(sql, values)
     end
 
-    def delete()
+    def delete
       sql = "
         DELETE FROM
           players
@@ -42,6 +42,13 @@ class Player
         "
       values = [@id]
       SqlRunner.run(sql, values)
+    end
+
+    def wins
+      sql = "SELECT * FROM wins WHERE player_id = $1"
+      values= [@id]
+      wins = SqlRunner.run(sql, values)
+      Win.map_items(wins)
     end
 
     def Player.map_items(player_data)
