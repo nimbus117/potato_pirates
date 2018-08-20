@@ -5,21 +5,15 @@ require_relative('models/win.rb')
 require_relative('models/leaderboard.rb')
 require_relative('db/sql_runner.rb')
 
-# remove Leaderboard class and move Leaderboard.get to wins class as class method 'Wins.Leaderboard'
-# move terminal-table function to console.rb, use for all 'view' options
-# add Wins.all_with_name (join) and order by date desc
-# order Player.all by name
-# add player.wins method
-
+# not sure what to do with leaderboard. Should it even be a class?
 
 while true do
   system 'clear'
   puts "\n1. View leaderboard "\
     "\n2. View players"\
     "\n3. Add player"\
-    "\n4. View wins"\
-    "\n5. Add win"\
-    "\n6. Exit"
+    "\n4. Add win"\
+    "\n5. Exit"
   print "\nEnter option: "
   input = gets.chomp.to_i
 
@@ -30,19 +24,36 @@ while true do
     Leaderboard.show
     print "\nPress enter to continue"
     gets
+  when 2
+    system 'clear'
+    puts ''
+    Player.all.sort_by {|player| player.name}.each {|player| puts player.name}
+    print "\nPress enter to continue"
+    gets
   when 3
     system 'clear'
     print "\nEnter player name ('Bob'): "
     name = gets.chomp
     print "Enter player cohort ('E24'): "
     cohort = gets.chomp
-  when 5
+    new_player = Player.new({
+      'name' => name,
+      'cohort' => cohort
+    })
+    new_player.save
+  when 4
     system 'clear'
     print "\nEnter player name ('Bob'): "
     name = gets.chomp
     print "Enter win date ('2018-08-16'): "
-    cohort = gets.chomp
-  when 6
+    date = gets.chomp
+    player = Player.get_by_name(name)
+    new_win = Win.new({
+      'date' => date,
+      'player_id' => player.id
+    })
+    new_win.save
+  when 5
     system 'clear'
     break
   when 10
