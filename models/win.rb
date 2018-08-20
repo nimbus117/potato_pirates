@@ -8,7 +8,7 @@ class Win
     @player_id = options['player_id'].to_i
   end
 
-    def save()
+    def save
       sql = "
         INSERT INTO wins
           (date, player_id)
@@ -20,7 +20,7 @@ class Win
       @id = SqlRunner.run(sql, values)[0]['id'].to_i
     end
 
-    def update()
+    def update
       sql = "
         UPDATE
           wins
@@ -33,7 +33,7 @@ class Win
       SqlRunner.run(sql, values)
     end
 
-    def delete()
+    def delete
       sql = "
         DELETE FROM
           wins
@@ -42,6 +42,20 @@ class Win
         "
       values = [@id]
       SqlRunner.run(sql, values)
+    end
+
+    def player
+      sql = "
+      SELECT
+        *
+      FROM
+        players
+      WHERE
+        id = $1
+      "
+      values = [@player_id]
+      player = SqlRunner.run(sql, values).first
+      Player.new(player)
     end
 
     def Win.map_items(win_data)
